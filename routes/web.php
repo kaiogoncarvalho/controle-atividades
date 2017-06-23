@@ -14,10 +14,13 @@
 
 Auth::routes();
 
-Route::get('', [
-    'as' => 'login',
-    'uses' => 'Auth\LoginController@showLoginForm'
-]);
+Route::get('', function(){
+    return view('welcome');
+});
 
 
+Route::get('/activities', 'ActivityController@index')->name('activities');
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('activity/create', 'ActivityController@create');
+

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Activity;
 use Illuminate\Http\Request;
 
-class HomeController extends Controller
+class ActivityController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -23,8 +24,17 @@ class HomeController extends Controller
      */
     public function index()
     {
+        return [
+            "draw" =>  1,
+            "recordsTotal" =>  1,
+            "recordsFiltered" =>  1,
+            'data' => Activity::all(),
+        ];
 
+    }
 
-        return view('home');
+    public function create()
+    {
+        return view('activity.new_edit');
     }
 }
