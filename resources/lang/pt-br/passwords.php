@@ -13,13 +13,12 @@ return [
     |
     */
 
-    'password' => 'Senhas devem ter pelo menos 6 caracteres e combinar com a confirmação.',
-    'reset' => 'Sua senha foi resetada!',
-    'sent' => 'Não enviamos um link para resetar a senha por e-mail!',
-    'token' => 'Este token de resetar a senha é inválido.',
-    'user' => " Não não podemos encontrar usuário com esse endereço de e-mail.",
-    'email_address' => 'Endereço de E-mail',
-    'send_link' => "Envie o link para resetar a senha",
+    'password'       => 'Senhas devem ter pelo menos 6 caracteres e combinar com a confirmação.',
+    'reset'          => 'Sua senha foi resetada!',
+    'sent'           => 'Não enviamos um link para resetar a senha por e-mail!',
+    'token'          => 'Este token de resetar a senha é inválido.',
+    'user'           => "Não podemos encontrar usuário com esse endereço de e-mail.",
+    'email_address'  => 'Endereço de E-mail',
+    'send_link'      => "Envie o link para resetar a senha",
     'reset_password' => 'Resetar a senha'
-
 ];

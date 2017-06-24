@@ -1,20 +1,37 @@
 @extends('layouts.app')
 
+@section('title')
+    @lang('auth.register')
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">@lang('register.register')</div>
+                <div class="panel-heading">@lang('auth.register')</div>
                 <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ route('register') }}">
-                        {{ csrf_field() }}
+                    {{
+                        Form::open(['route' => 'register', 'role' => 'form', 'class' => 'form-horizontal'])
+                     }}
+
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">@lang('register.name')</label>
+                            <label for="name" class="col-md-4 control-label">@lang('auth.name')</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
+
+                                {{
+                                    Form::text(
+                                        'name',
+                                        old('name'),
+                                        [
+                                            'class'           => 'form-control',
+                                            'data-validation' => 'required',
+                                            'autofocus'       => true
+                                        ]
+                                    )
+                                }}
 
                                 @if ($errors->has('name'))
                                     <span class="help-block">
@@ -25,11 +42,20 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">@lang('register.email_address')</label>
+                            <label for="email" class="col-md-4 control-label">@lang('auth.email_address')</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
-
+                                {{
+                                    Form::text(
+                                        'email',
+                                         old('email'),
+                                        [
+                                            'class'           => 'form-control',
+                                            'data-validation' => 'required email',
+                                            'autofocus'       => true,
+                                        ]
+                                    )
+                                }}
                                 @if ($errors->has('email'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('email') }}</strong>
@@ -39,10 +65,20 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">@lang('register.password')</label>
+                            <label for="password" class="col-md-4 control-label">@lang('auth.password')</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
+                                {{
+                                   Form::password(
+                                       'password',
+                                       [
+                                           'class'                            => 'form-control',
+                                           'data-validation'                  => 'required length',
+                                           'data-validation-length'           => 'min6',
+                                           'data-validation-error-msg-length' => 'Senha deve ter mais que 6 caracteres'
+                                       ]
+                                   )
+                               }}
 
                                 @if ($errors->has('password'))
                                     <span class="help-block">
@@ -53,24 +89,38 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="password-confirm" class="col-md-4 control-label">@lang('register.confirm_password')</label>
+                            <label for="password-confirm" class="col-md-4 control-label">@lang('auth.confirm_password')</label>
 
                             <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
+                                {{
+                                   Form::password(
+                                       'password_confirmation',
+                                       [
+                                           'class'                                  => 'form-control',
+                                           'data-validation'                        => 'confirmation',
+                                           'data-validation-confirm'                => 'password',
+                                           'data-validation-error-msg-confirmation' => 'Confirmação de senha está incorreta'
+                                       ]
+                                   )
+                               }}
                             </div>
                         </div>
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">
-                                    @lang('register.confirm')
+                                    @lang('auth.confirm')
                                 </button>
                             </div>
                         </div>
-                    </form>
+                    {{ Form::close() }}
                 </div>
             </div>
         </div>
     </div>
 </div>
+@endsection
+
+@section('footer')
+    @include('components.validation')
 @endsection

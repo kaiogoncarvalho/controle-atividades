@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Activity;
+use App\Status;
 use Illuminate\Http\Request;
 
 class ActivityController extends Controller
@@ -35,6 +36,12 @@ class ActivityController extends Controller
 
     public function create()
     {
-        return view('activity.new_edit');
+        return view('activity.new_edit', ['status' => Status::all()]);
+    }
+
+    public function home()
+    {
+
+        return view('activity.home', ['status' => Status::all()]);
     }
 }

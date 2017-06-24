@@ -13,17 +13,19 @@ return [
     |
     */
 
-    'name'        => 'Nome',
-    'create'      => 'Cadastro',
-    'edit'        => 'Edição',
-    'description' => 'Descrição',
-    'start_date'  => 'Data de Início',
-    'end_date'    => 'Data de Fim',
-    'status'      => 'Status',
-    'situation'   => 'Situação',
-    'creating'    => 'Criar',
-    'editing'     => 'Editar'
-
+    'name'               => 'Nome',
+    'create'             => 'Cadastro',
+    'edit'               => 'Edição',
+    'description'        => 'Descrição',
+    'start_date'         => 'Data de Início',
+    'end_date'           => 'Data de Fim',
+    'status'             => 'Status',
+    'situation'          => 'Situação',
+    'creating'           => 'Criar',
+    'editing'            => 'Editar',
+    'control_activities' => 'Controle de Atividades',
+    'filter'             => 'Filtrar',
+    'column'             => 'Coluna',
 
 
 ];

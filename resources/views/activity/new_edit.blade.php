@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
+
+
 @section('content')
+
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -72,8 +75,9 @@
                             <div class="col-md-6">
                                 <select name="status" class="form-control">
                                     <option></option>
-                                    <option value="1">Ativo</option>
-                                    <option value="0">Inativo</option>
+                                    @foreach($status as $value)
+                                        <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                    @endforeach
                                 </select>
                                 @if ($errors->has('status'))
                                     <span class="help-block">
@@ -115,45 +119,16 @@
     </div>
 </div>
 <script type="text/javascript">
-    $(function () {
-        $('#start_date').datetimepicker({
-            format: "DD/MM/YYYY",
-            showClear:  true,
-            locale: 'pt-br',
-            useCurrent: false,
-            icons: {
-                time: "fa fa-clock-o",
-                date: "fa fa-calendar",
-                up: "fa fa-arrow-up",
-                down: "fa fa-arrow-down"
-            }
-        });
-        $('#end_date').datetimepicker({
-            format: "DD/MM/YYYY",
-            showClear:  true,
-            locale: 'pt-br',
-            useCurrent: false,
-            icons: {
-                time: "fa fa-clock-o",
-                date: "fa fa-calendar",
-                up: "fa fa-arrow-up",
-                down: "fa fa-arrow-down"
-            }
-        });
 
-        $("#start_date").on("dp.change", function (e) {
-            $('#end_date').data("DateTimePicker").minDate(e.date);
-        });
-        $("#end_date").on("dp.change", function (e) {
-            $('#start_date').data("DateTimePicker").maxDate(e.date);
-        });
-    });
 </script>
 @endsection
 
-@section('head')
+@section('footer')
+    {{ Html::script('js/moment/moment.min.js') }}
     {{ Html::style('css/bootstrap-datetimepicker.min.css') }}
-    {{ Html::script('js/bootstrap-datetimepicker.js') }}
-    {{ Html::script('js/locales/pt-br.js') }}
+    {{ Html::script('js/datetimepicker/bootstrap-datetimepicker.js') }}
+    {{ Html::script('js/moment/locales/pt-br.js') }}
+    {{ Html::script('js/datetimepicker/new_edit.js') }}
 
+    @include('components.validation')
 @endsection
