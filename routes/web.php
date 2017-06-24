@@ -23,4 +23,11 @@ Route::get('/activities', 'ActivityController@index')->name('activities');
 Route::get('/home', 'ActivityController@home')->name('home');
 
 Route::get('activity/create', 'ActivityController@create');
+Route::get('activity/edit/{id}', 'ActivityController@edit');
+
+Route::post('activity/save/{id?}', 'ActivityController@save');
+
+
+
+
 

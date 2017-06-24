@@ -13,7 +13,7 @@ class ActivityRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -26,9 +26,9 @@ class ActivityRequest extends FormRequest
         return [
             'name'        => 'required|string|max:255',
             'description' => 'required|string|max:600',
-            'start_date'  => 'required|date_format:d/m/Y|date',
-            'end_date'    => 'nullable|date_format:d/m/Y|date',
-            'status'      => 'required|exists:status,id',
+            'start_date'  => 'required|date_format:d/m/Y',
+            'end_date'    => 'nullable|date_format:d/m/Y',
+            'status_id'   => 'required|exists:status,id',
             'situation'   => 'required|boolean',
         ];
     }

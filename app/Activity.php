@@ -23,8 +23,6 @@ class Activity extends Model
     ];
 
     protected $dates = [
-        'started_date',
-        'end_date',
         'created_at',
         'updated_at',
         'deleted_at'
@@ -35,10 +33,51 @@ class Activity extends Model
         'user_id'     => 'integer',
         'description' => 'string',
         'start_date'  => 'date',
-        'end_date'    => 'end_date',
+        'end_date'    => 'date',
         'status_id'   => 'integer',
         'situation'   => 'boolean',
     ];
+
+    public function setEndDateAttribute($value)
+    {
+        if(!empty($value)) {
+            $date = \DateTime::createFromFormat('d/m/Y', $value);
+            $this->attributes['end_date'] = $date->format('Y-m-d');
+        }
+    }
+
+    public function setStartDateAttribute($value)
+    {
+        if(!empty($value)) {
+            $date = \DateTime::createFromFormat('d/m/Y', $value);
+            $this->attributes['start_date'] = $date->format('Y-m-d');
+        }
+    }
+
+    public function getStartDateAttribute($value)
+    {
+        if(isset($value)) {
+            $date = \DateTime::createFromFormat('Y-m-d' , $value);
+            return $date->format('d/m/Y');
+        }
+        else{
+            return '';
+        }
+    }
+
+    public function getEndDateAttribute($value)
+    {
+        if(!empty($value)) {
+            $date = \DateTime::createFromFormat('Y-m-d', $value);
+            return $date->format('d/m/Y');
+        }
+        else{
+            return '';
+        }
+    }
+
+
+
 
 
 }
