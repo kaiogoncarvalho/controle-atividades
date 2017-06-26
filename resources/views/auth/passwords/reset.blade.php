@@ -1,11 +1,15 @@
 @extends('layouts.app')
 
+@section('title')
+    @lang('passwords.reset_password')
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">@lang('reset.reset_password')</div>
+                <div class="panel-heading">@lang('passwords.reset_password')</div>
 
                 <div class="panel-body">
                     @if (session('status'))
@@ -13,18 +17,27 @@
                             {{ session('status') }}
                         </div>
                     @endif
+                    {{ Form::open(['route' => 'password.request', 'role' => 'form', 'class' => 'form-horizontal']) }}
 
-                    <form class="form-horizontal" role="form" method="POST" action="{{ route('password.request') }}">
-                        {{ csrf_field() }}
-
-                        <input type="hidden" name="token" value="{{ $token }}">
+                        {{ Form::hidden('token', $token) }}
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">@lang('reset.email_address')</label>
+                            {{
+                               Form::label('email', trans('common.email_address'), ['class' => 'col-md-4 control-label'])
+                            }}
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ $email or old('email') }}" required autofocus>
-
+                                {{
+                                   Form::text(
+                                       'email',
+                                        isset($email) ? $email : old('email'),
+                                       [
+                                           'class'           => 'form-control',
+                                           'data-validation' => 'required email',
+                                           'autofocus'       => true,
+                                       ]
+                                   )
+                               }}
                                 @if ($errors->has('email'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('email') }}</strong>
@@ -34,11 +47,22 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">@lang('reset.password')</label>
+                            {{
+                                Form::label('password', trans('common.password'), ['class' => 'col-md-4 control-label'])
+                             }}
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
-
+                                {{
+                                   Form::password(
+                                       'password',
+                                       [
+                                           'class'                            => 'form-control',
+                                           'data-validation'                  => 'required length',
+                                           'data-validation-length'           => 'min6',
+                                           'data-validation-error-msg-length' => 'Senha deve ter mais que 6 caracteres'
+                                       ]
+                                   )
+                               }}
                                 @if ($errors->has('password'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('password') }}</strong>
@@ -48,10 +72,21 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-                            <label for="password-confirm" class="col-md-4 control-label">@lang('reset.confirm_password')</label>
+                            {{
+                               Form::label('password_confirmation', trans('common.confirm_password'), ['class' => 'col-md-4 control-label'])
+                            }}
                             <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-
+                                {{
+                                   Form::password(
+                                      'password_confirmation',
+                                      [
+                                          'class'                                  => 'form-control',
+                                          'data-validation'                        => 'confirmation',
+                                          'data-validation-confirm'                => 'password',
+                                          'data-validation-error-msg-confirmation' => 'Confirmação de senha está incorreta'
+                                      ]
+                                   )
+                              }}
                                 @if ($errors->has('password_confirmation'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('password_confirmation') }}</strong>
@@ -63,7 +98,7 @@
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">
-                                    Reset Password
+                                    @lang('auth.reset_password')
                                 </button>
                             </div>
                         </div>
@@ -73,4 +108,8 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('footer')
+    @include('components.validation')
 @endsection

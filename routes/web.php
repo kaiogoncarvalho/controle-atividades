@@ -14,10 +14,23 @@
 
 Auth::routes();
 
-Route::get('', [
-    'as' => 'login',
-    'uses' => 'Auth\LoginController@showLoginForm'
-]);
+Route::get('', function(){
+    return view('welcome');
+});
 
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('activity/activities', 'ActivityController@index')->name('activities');
+Route::get('activity/home', 'ActivityController@home')->name('home');
+
+Route::get('activity/create', 'ActivityController@create');
+Route::get('activity/edit/{id}', 'ActivityController@edit');
+
+Route::post('activity/creating', 'ActivityController@creating');
+Route::post('activity/editing/{id}', 'ActivityController@editing');
+
+Route::get('activity/delete/{id}', 'ActivityController@delete');
+
+
+
+
+

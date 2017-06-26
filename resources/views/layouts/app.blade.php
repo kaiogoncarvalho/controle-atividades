@@ -8,10 +8,18 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>@yield('title')</title>
 
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <!-- Jquery -->
+    {{ Html::script("js/jquery-3.2.1.min.js") }}
+
+
+    <!-- Bootstrap -->
+    {{ Html::style('css/bootstrap.min.css') }}
+    {{ Html::script('js/bootstrap.min.js') }}
+
+    @yield('head')
+
 </head>
 <body>
     <div id="app">
@@ -21,16 +29,14 @@
 
                     <!-- Collapsed Hamburger -->
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
-                        <span class="sr-only">Toggle Navigation</span>
+                        <span class="sr-only"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
-                    </a>
+                    {{ link_to('/', trans('common.system-control-system'), ['class' => 'navbar-brand']) }}
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
@@ -43,9 +49,10 @@
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @if (Auth::guest())
-                            <li><a href="{{ route('login') }}">@lang('header.login')</a></li>
-                            <li><a href="{{ route('register') }}">@lang('header.register')</a></li>
+                            <li>{{ link_to_route('login', trans('common.login')) }}</li>
+                            <li>{{ link_to_route('register', trans('common.register')) }}</li>
                         @else
+                            <li>{{ link_to_route('home', trans('common.home')) }}</li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     {{ Auth::user()->name }} <span class="caret"></span>
@@ -56,15 +63,15 @@
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                            Logout
+                                            @lang('app.logout')
                                         </a>
 
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form>
+                                        {{ Form::open(['route' => 'logout', 'style' => 'display:none', 'id' => 'logout-form']) }}
+                                        {{ Form::close() }}
                                     </li>
                                 </ul>
                             </li>
+
                         @endif
                     </ul>
                 </div>
@@ -75,6 +82,6 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+    @yield('footer')
 </body>
 </html>

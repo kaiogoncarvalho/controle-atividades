@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    @lang('auth.reset_password')
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row">
@@ -13,14 +17,24 @@
                         </div>
                     @endif
 
-                    <form class="form-horizontal" role="form" method="POST" action="{{ route('password.email') }}">
-                        {{ csrf_field() }}
+                    {{ Form::open(['route' => 'password.email', 'role' => 'form', 'class' => 'form-horizontal']) }}
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">@lang('passwords.email_address')</label>
-
+                            {{
+                                Form::label('email', trans('common.email_address'), ['class' => 'col-md-4 control-label'])
+                             }}
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
+                                {{
+                                    Form::text(
+                                        'email',
+                                         old('email'),
+                                        [
+                                            'class'           => 'form-control',
+                                            'data-validation' => 'required email',
+                                            'autofocus'       => true,
+                                        ]
+                                    )
+                                }}
 
                                 @if ($errors->has('email'))
                                     <span class="help-block">
@@ -37,10 +51,14 @@
                                 </button>
                             </div>
                         </div>
-                    </form>
+                    {{ Form::close() }}
                 </div>
             </div>
         </div>
     </div>
 </div>
+@endsection
+
+@section('footer')
+    @include('components.validation')
 @endsection
