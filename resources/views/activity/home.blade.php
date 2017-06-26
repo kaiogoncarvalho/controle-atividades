@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    @lang('activity.control_activities')
+    @lang('common.control-system')
 @endsection
 
 @section('head')
@@ -30,6 +30,9 @@
     <!-- Data table Select -->
     {{ Html::script('js/datatable/dataTables.select.min.js') }}
 
+    <!-- Alerts Style -->
+    {{ Html::style('css/jquery-confirm.min.css') }}
+
 @endsection
 
 @section('content')
@@ -40,6 +43,13 @@
                 <div class="panel-heading">@lang('activity.control_activities')</div>
 
                 <div class="panel-body">
+                    @if (session('alert'))
+                        <div class="alert alert-{{ session('alert.type') }} alert-dismissible" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            {!! session('alert.message') !!}
+                        </div>
+                    @endif
+
                     <table cellpadding="3" cellspacing="0" border="0" style="width: 50%; margin: 0 auto 2em auto;">
                         <thead>
                         <tr>
@@ -51,25 +61,42 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr id="filter_global">
+                        <tr id="filter_col5" data-column="5">
                             <td>@lang('activity.status')</td>
                             <td align="center">
-                                <select id="col4_filter" class="form-control col-sm-8 col-offset-sm-2">
-                                    <option></option>
-                                    @foreach($status as $value)
-                                        <option value="{{ $value->id }}">{{ $value->name }}</option>
-                                    @endforeach
-                                </select>
+                                {{
+                                    Form::select(
+                                        'status_id',
+                                        $status,
+                                        old('status_id'),
+                                        [
+                                            'class'           => 'form-control col-sm-8 col-offset-sm-2 column_filter',
+                                            'id'              => 'col5_filter',
+                                            'placeholder'     => trans('activity.placeHolder_select')
+                                        ]
+                                   )
+                                }}
                             </td>
                         </tr>
-                        <tr id="filter_col1" data-column="0">
+                        <tr id="filter_col6" data-column="6">
                             <td>@lang('activity.situation')</td>
                             <td align="center">
-                                <select id="col4_filter" class="form-control">
-                                    <option></option>
-                                    <option value="1">Ativo</option>
-                                    <option value="0">Inativo</option>
-                                </select>
+                                {{
+                                   Form::select(
+                                       'situation',
+                                        [
+                                            0 => trans('activity.disable'),
+                                            1 => trans('activity.enable'),
+                                        ],
+                                       old('situation'),
+                                       [
+                                           'class'           => 'form-control column_filter',
+                                           'id'              => 'col6_filter',
+                                           'placeholder'     => trans('activity.placeHolder_select')
+                                       ]
+                                  )
+                               }}
+
                             </td>
                         </tr>
                         </tbody>
@@ -78,7 +105,7 @@
                         <thead>
                         <tr>
                             <th></th>
-                            <th>@lang('activity.name')</th>
+                            <th>@lang('common.name')</th>
                             <th>@lang('activity.description')</th>
                             <th>@lang('activity.start_date')</th>
                             <th>@lang('activity.end_date')</th>
@@ -92,10 +119,10 @@
         </div>
     </div>
 </div>
-
 @endsection
 
 @section('footer')
+    {{ Html::script('js/jquery-confirm.min.js') }}
     {{ Html::script('js/datatable/datatable.js') }}
 @endsection
 

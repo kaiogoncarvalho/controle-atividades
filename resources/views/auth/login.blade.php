@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    @lang('auth.login')
+    @lang('common.login')
 @endsection
 
 @section('content')
@@ -10,13 +10,15 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                        @lang('auth.login')
+                        @lang('common.login')
                 </div>
                 <div class="panel-body">
                     {{ Form::open(['route' => 'login', 'class' => 'form-horizontal', 'role' => 'form', 'id' => 'login' ]) }}
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">@lang('auth.email_address')</label>
+                            {{
+                                Form::label('email', trans('common.email_address'), ['class' => 'col-md-4 control-label'])
+                             }}
 
                             <div class="col-md-6">
                                 {{
@@ -40,7 +42,9 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">@lang('auth.password')</label>
+                            {{
+                                Form::label('password', trans('common.password'), ['class' => 'col-md-4 control-label'])
+                             }}
 
                             <div class="col-md-6">
                                 {{
@@ -80,13 +84,13 @@
 
                         <div class="form-group">
                             <div class="col-md-8 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-success">
                                     @lang('auth.access')
                                 </button>
 
-                                <a class="btn btn-link" href="{{ route('password.request') }}">
-                                   @lang('auth.forgot_password')
-                                </a>
+                                {{
+                                    link_to_route('password.request', trans('auth.forgot_password'), ['class' => 'btn btn-link'])
+                                }}
                             </div>
                         </div>
                     {{ Form::close() }}

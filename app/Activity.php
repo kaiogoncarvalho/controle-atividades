@@ -2,8 +2,8 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Model;
 
 class Activity extends Model
 {
@@ -76,8 +76,21 @@ class Activity extends Model
         }
     }
 
+    public function getSituationAttribute($value)
+    {
+        if($value == true) {
+            return 1;
+        }
+        else{
+            return 0;
+        }
 
 
+    }
 
+    public function status()
+    {
+        return $this->belongsTo('App\Status');
+    }
 
 }

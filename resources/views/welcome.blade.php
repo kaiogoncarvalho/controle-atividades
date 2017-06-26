@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title> @lang('welcome.title')</title>
+        <title> @lang('common.control-system')</title>
 
         <!-- Fonts -->
        {{ Html::style('https://fonts.googleapis.com/css?family=Raleway:100,600') }}
@@ -17,15 +17,15 @@
         <div class="flex-center position-ref full-height">
             <div class="content">
                 <div class="title m-b-md">
-                    @lang('welcome.system')
+                    @lang('common.system-control-system')
                 </div>
 
                 <div class="links">
                     @if (Auth::check())
-                        <a href="{{ url('/home') }}">@lang('welcome.home')</a>
+                        {{ link_to_route('home', trans('common.home')) }}
                     @else
-                        <a href="{{ url('/login') }}">@lang('welcome.login')</a>
-                        <a href="{{ url('/register') }}">@lang('welcome.register')</a>
+                        {{ link_to_route('login', trans('common.login')) }}
+                        {{ link_to_route('register', trans('common.register')) }}
                     @endif
                 </div>
             </div>

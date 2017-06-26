@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    @lang('auth.register')
+    @lang('common.register')
 @endsection
 
 @section('content')
@@ -9,7 +9,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">@lang('auth.register')</div>
+                <div class="panel-heading">@lang('common.register')</div>
                 <div class="panel-body">
                     {{
                         Form::open(['route' => 'register', 'role' => 'form', 'class' => 'form-horizontal'])
@@ -17,8 +17,9 @@
 
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">@lang('auth.name')</label>
-
+                            {{
+                                Form::label('name', trans('common.name'), ['class' => 'col-md-4 control-label'])
+                             }}
                             <div class="col-md-6">
 
                                 {{
@@ -42,8 +43,9 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">@lang('auth.email_address')</label>
-
+                            {{
+                                Form::label('email', trans('common.email_address'), ['class' => 'col-md-4 control-label'])
+                             }}
                             <div class="col-md-6">
                                 {{
                                     Form::text(
@@ -65,7 +67,9 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">@lang('auth.password')</label>
+                            {{
+                                Form::label('password', trans('common.password'), ['class' => 'col-md-4 control-label'])
+                             }}
 
                             <div class="col-md-6">
                                 {{
@@ -75,7 +79,7 @@
                                            'class'                            => 'form-control',
                                            'data-validation'                  => 'required length',
                                            'data-validation-length'           => 'min6',
-                                           'data-validation-error-msg-length' => 'Senha deve ter mais que 6 caracteres'
+                                           'data-validation-error-msg-length' => trans('auth.length_password')
                                        ]
                                    )
                                }}
@@ -89,7 +93,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="password-confirm" class="col-md-4 control-label">@lang('auth.confirm_password')</label>
+                            {{
+                               Form::label('password_confirmation', trans('common.confirm_password'), ['class' => 'col-md-4 control-label'])
+                            }}
 
                             <div class="col-md-6">
                                 {{
@@ -99,7 +105,7 @@
                                            'class'                                  => 'form-control',
                                            'data-validation'                        => 'confirmation',
                                            'data-validation-confirm'                => 'password',
-                                           'data-validation-error-msg-confirmation' => 'Confirmação de senha está incorreta'
+                                           'data-validation-error-msg-confirmation' => trans('auth.confirm_password')
                                        ]
                                    )
                                }}

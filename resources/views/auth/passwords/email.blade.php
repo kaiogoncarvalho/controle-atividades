@@ -18,11 +18,11 @@
                     @endif
 
                     {{ Form::open(['route' => 'password.email', 'role' => 'form', 'class' => 'form-horizontal']) }}
-                        {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">@lang('passwords.email_address')</label>
-
+                            {{
+                                Form::label('email', trans('common.email_address'), ['class' => 'col-md-4 control-label'])
+                             }}
                             <div class="col-md-6">
                                 {{
                                     Form::text(

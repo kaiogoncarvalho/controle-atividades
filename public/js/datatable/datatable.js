@@ -28,13 +28,34 @@ $(document).ready( function () {
                 "data":           null,
                 "defaultContent": ""
             },
-            { "data": "name" },
-            { "data": "description" },
-            { "data": "start_date" },
-            { "data": "end_date" },
-            { "data": "status_id" },
-            { "data": "situation" }
+            {
+                "data": "name",
+                "name" : "name"
+            },
+            {
+                "data": "description",
+                "name" : "description"
+            },
+            {
+                "data": "start_date",
+                "name" : "start_date"
+            },
+            {
+                "data": "end_date",
+                "name" : "end_date"
+            },
+            {
+                "data": "status.name",
+                "name" : "status_id"
+            },
+            {
+                "data": "situation_name",
+                "name" : "situation"
+            }
         ],
+        "rowCallback": function ( row, data ) {
+            if ( data.status_id == "4" ){ $('td', row).css('background-color', '#5cb85c');}
+        },
         select: true,
         dom: 'Bfrtip',
         buttons: [
@@ -42,7 +63,7 @@ $(document).ready( function () {
                 text: '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>',
                 className: 'btn btn-success',
                 action: function ( e, dt, node, config ) {
-                    window.location.href = "activity/create";
+                    window.location.href = "create";
                 }
             },
             {
@@ -51,7 +72,12 @@ $(document).ready( function () {
                 action: function ( e, dt, node, config ) {
                     var linha = table.rows( { selected: true } )[0][0];
                     var data = table.row(linha).data();
-                    window.location.href = "activity/edit/"+data.id;
+                    if(linha != undefined) {
+                        window.location.href = "edit/" + data.id;
+                    }
+                    else{
+
+                    }
                 }
             },
             {
@@ -60,7 +86,30 @@ $(document).ready( function () {
                 action: function ( e, dt, node, config ) {
                     var linha = table.rows( { selected: true } )[0][0];
                     var data = table.row(linha).data();
-                    window.location.href = "activity/delete/"+data.id;
+                    if(linha != undefined) {
+                        $.confirm({
+                            title: 'Exclusão de Atividade',
+                            content: 'Realmente deseja excluir esta atividade?',
+                            type: 'red',
+                            typeAnimated: true,
+                            buttons: {
+                                confirmar: function () {
+                                    window.location.href = "delete/"+data.id;
+                                },
+                                cancelar: function () {
+
+                                },
+                            }
+                        });
+                    }
+                    else{
+                        $.alert({
+                            title: 'Escolha uma atividade!',
+                            content: 'Nenhuma Atividade foi escolhida!',
+                        });
+                    }
+
+
                 }
             }
         ],
@@ -77,7 +126,7 @@ $(document).ready( function () {
     });
 
 
-    $('input.column_filter').on( 'change', function () {
+    $('select.column_filter').on( 'change', function () {
         filterColumn( $(this).parents('tr').attr('data-column') );
     } );
 });

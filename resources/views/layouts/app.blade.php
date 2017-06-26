@@ -36,9 +36,7 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
-                         @lang('app.name')
-                    </a>
+                    {{ link_to('/', trans('common.system-control-system'), ['class' => 'navbar-brand']) }}
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
@@ -51,9 +49,10 @@
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @if (Auth::guest())
-                            <li><a href="{{ route('login') }}">@lang('app.login')</a></li>
-                            <li><a href="{{ route('register') }}">@lang('app.register')</a></li>
+                            <li>{{ link_to_route('login', trans('common.login')) }}</li>
+                            <li>{{ link_to_route('register', trans('common.register')) }}</li>
                         @else
+                            <li>{{ link_to_route('home', trans('common.home')) }}</li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     {{ Auth::user()->name }} <span class="caret"></span>
@@ -72,6 +71,7 @@
                                     </li>
                                 </ul>
                             </li>
+
                         @endif
                     </ul>
                 </div>

@@ -13,4 +13,9 @@ class Status extends Model
         'name',
     ];
 
+    public function activity()
+    {
+        return $this->belongsTo('App\Activity');
+    }
+
 }

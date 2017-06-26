@@ -13,8 +13,6 @@ return [
     |
     */
 
-    'name'               => 'Nome',
-    'create'             => 'Cadastro',
     'edit'               => 'Edição',
     'description'        => 'Descrição',
     'start_date'         => 'Data de Início',
@@ -26,6 +24,14 @@ return [
     'control_activities' => 'Controle de Atividades',
     'filter'             => 'Filtrar',
     'column'             => 'Coluna',
+    'delete_success'     => '<strong> Deletada com Sucesso! </strong> Atividade foi deletada com sucesso',
+    'edit_success'       => '<strong> Alterada com Sucesso! </strong> Atividade foi alterada com sucesso',
+    'create_success'     => '<strong> Criada com Sucesso! </strong> Atividade foi criada com sucesso',
+    'not_editable'       => '<strong> Atividade Bloqueada! </strong> Atividades com Status "Concluído" não podem ser editadas',
+    'back'               => 'Voltar',
+    'enable'             => 'Ativo',
+    'disable'            => 'Inativo',
+    'placeHolder_select' => ' -- Selecione -- '
 
 
 ];

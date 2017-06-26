@@ -4,7 +4,7 @@
     @if(isset($activity))
         @lang('activity.edit')
     @else
-        @lang('activity.create')
+        @lang('common.register')
     @endif
 @endsection
 
@@ -18,14 +18,22 @@
                     @if(isset($activity))
                         @lang('activity.edit')
                     @else
-                        @lang('activity.create')
+                        @lang('common.register')
                     @endif
                 </div>
                 <div class="panel-body">
-                    {{ Form::open(['url' => 'activity/save', 'role' => 'form', 'class' => 'form-horizontal']) }}
+                    @if ($disabled == true)
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            @lang('activity.not_editable')
+                        </div>
+                    @endif
+                    {{ Form::open(['url' => $route, 'role' => 'form', 'class' => 'form-horizontal', 'id' => 'form-activity']) }}
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">@lang('activity.name')</label>
+                            {{
+                                Form::label('name', trans('common.name'), ['class' => 'col-md-4 control-label'])
+                             }}
 
                             <div class="col-md-6">
 
@@ -36,7 +44,8 @@
                                         [
                                             'class'                  => 'form-control',
                                             'data-validation'        => 'required length',
-                                            'data-validation-length' => 'max255'
+                                            'data-validation-length' => 'max255',
+                                            'disabled'               => isset($disabled) ? $disabled : false
                                         ]
                                     )
                                  }}
@@ -50,7 +59,9 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
-                            <label for="description" class="col-md-4 control-label">@lang('activity.description')</label>
+                            {{
+                                Form::label('description', trans('activity.description'), ['class' => 'col-md-4 control-label'])
+                             }}
 
                             <div class="col-md-6">
                                 {{
@@ -60,7 +71,8 @@
                                         [
                                             'class'                  => 'form-control',
                                             'data-validation'        => 'required length',
-                                            'data-validation-length' => 'max600'
+                                            'data-validation-length' => 'max600',
+                                            'disabled'               => isset($disabled) ? $disabled : false
                                         ]
                                     )
                                 }}
@@ -74,7 +86,9 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('start_date') ? ' has-error' : '' }}">
-                            <label for="start_date" class="col-md-4 control-label">@lang('activity.start_date')</label>
+                            {{
+                                Form::label('start_date', trans('activity.start_date'), ['class' => 'col-md-4 control-label'])
+                             }}
 
                             <div class="col-md-6">
                                 {{
@@ -85,7 +99,8 @@
                                             'data-validation'        => 'required date',
                                             'data-validation-format' => 'dd/mm/yyyy',
                                             'class'                  => 'form-control',
-                                            'id'                     => 'start_date'
+                                            'id'                     => 'start_date',
+                                            'disabled'               => isset($disabled) ? $disabled : false
                                         ]
                                     )
 
@@ -100,7 +115,9 @@
                         </div>
                         
                         <div class="form-group{{ $errors->has('end_date') ? ' has-error' : '' }}">
-                            <label for="end_date" class="col-md-4 control-label">@lang('activity.end_date')</label>
+                            {{
+                                Form::label('end_date', trans('activity.end_date'), ['class' => 'col-md-4 control-label'])
+                             }}
 
                             <div class="col-md-6">
                                 {{
@@ -110,10 +127,11 @@
                                        [
                                            'data-validation'                  => 'required date',
                                            'data-validation-format'           => 'dd/mm/yyyy',
-                                           'data-validation-depends-on'       => 'status',
+                                           'data-validation-depends-on'       => 'status_id',
                                            'data-validation-depends-on-value' => 4,
                                            'class'                            => 'form-control',
-                                           'id'                               => 'end_date'
+                                           'id'                               => 'end_date',
+                                           'disabled'                         => isset($disabled) ? $disabled : false
                                        ]
                                    )
 
@@ -126,46 +144,56 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('status') ? ' has-error' : '' }}">
-                            <label for="status" class="col-md-4 control-label">@lang('activity.status')</label>
+                        <div class="form-group{{ $errors->has('status_id') ? ' has-error' : '' }}">
+                            {{
+                                Form::label('status', trans('activity.status'), ['class' => 'col-md-4 control-label'])
+                             }}
 
                             <div class="col-md-6">
-                                <select name="status_id" class="form-control" data-validation="required">
-                                    <option></option>
-                                    @foreach($status as $value)
-                                        @if(isset($activity) && $activity->status == $value->id)
-                                            <option selected value="{{ $value->id }}">{{ $value->name }}</option>
-                                        @else
-                                            <option value="{{ $value->id }}">{{ $value->name }}</option>
-                                        @endif
-                                    @endforeach
-                                </select>
-                                @if ($errors->has('status'))
+                                {{
+                                    Form::select(
+                                        'status_id',
+                                        $status,
+                                        isset($activity->status_id) ? $activity->status_id : old('status_id'),
+                                        [
+                                            'class'           => 'form-control',
+                                            'data-validation' => 'required',
+                                            'disabled'        => $disabled,
+                                            'placeholder'     => trans('activity.placeHolder_select')
+                                        ]
+                                   )
+                                }}
+                                @if ($errors->has('status_id'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('status') }}</strong>
+                                        <strong>{{ $errors->first('status_id') }}</strong>
                                     </span>
                                 @endif
                             </div>
                         </div>
 
                         <div class="form-group{{ $errors->has('situation') ? ' has-error' : '' }}">
-                            <label for="situation" class="col-md-4 control-label">@lang('activity.situation')</label>
+                            {{
+                                Form::label('situation', trans('activity.situation'), ['class' => 'col-md-4 control-label'])
+                             }}
 
                             <div class="col-md-6">
-                                <select name="situation" class="form-control" data-validation="required"s>
-                                    <option></option>
-                                    @if(isset($activity) && $activity->situation == true)
-                                        <option selected value="1">Ativo</option>
-                                    @else
-                                        <option value="1">Ativo</option>
-                                    @endif
-                                    @if(isset($activity) && $activity->situation == false)
-                                        <option selected value="0">Inativo</option
-                                    @else
-                                        <option value="0">Inativo</option
-                                    @endif
-                                    >
-                                </select>
+                                {{
+                                    Form::select(
+                                        'situation',
+                                        [
+                                            0 => trans('activity.disable'),
+                                            1 => trans('activity.enable'),
+                                        ],
+                                        isset($activity->situation) ? $activity->situation : old('situation'),
+                                        [
+                                            'class'           => 'form-control',
+                                            'data-validation' => 'required',
+                                            'disabled'        => $disabled,
+                                            'placeholder'     => trans('activity.placeHolder_select')
+                                        ]
+                                   )
+                                }}
+
                                 @if ($errors->has('situation'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('situation') }}</strong>
@@ -177,13 +205,16 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-success">
+                                <button  @if (isset($disabled) && $disabled == true) disabled @endif type="submit" class="btn btn-success">
                                     @if(isset($activity))
                                         @lang('activity.editing')
                                     @else
                                         @lang('activity.creating')
                                      @endif
                                 </button>
+                                {{
+                                    link_to_route('home', trans('activity.back'),[] ,['class' => 'btn btn-danger'])
+                                }}
                             </div>
                         </div>
                     {{ Form::close() }}
@@ -192,9 +223,6 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
-
-</script>
 @endsection
 
 @section('footer')
@@ -205,4 +233,5 @@
     {{ Html::script('js/datetimepicker/new_edit.js') }}
 
     @include('components.validation')
+
 @endsection
