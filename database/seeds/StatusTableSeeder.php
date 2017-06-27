@@ -12,7 +12,9 @@ class StatusTableSeeder extends Seeder
      */
     public function run()
     {
+        DB::statement("SET foreign_key_checks=0");
         Status::truncate();
+        DB::statement("SET foreign_key_checks=1");
         Status::insert(
             [
                 [

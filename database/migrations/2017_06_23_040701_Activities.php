@@ -25,8 +25,8 @@ class Activities extends Migration
           $table->softDeletes();
           $table->timestamps();
 
-          $table->foreign('user_id')->references('id')->on('users');
-          $table->foreign('status_id')->references('id')->on('status');
+          $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+          $table->foreign('status_id')->references('id')->on('status')->onDelete('cascade');
        });
     }
 
