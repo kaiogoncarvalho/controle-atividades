@@ -12,6 +12,7 @@ class StatusTableSeeder extends Seeder
      */
     public function run()
     {
+        Status::truncate();
         Status::insert(
             [
                 [
