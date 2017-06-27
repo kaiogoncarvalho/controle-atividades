@@ -76,7 +76,10 @@ $(document).ready( function () {
                         window.location.href = "edit/" + data.id;
                     }
                     else{
-
+                        $.alert({
+                            title: 'Escolha uma atividade!',
+                            content: 'Nenhuma Atividade foi escolhida!',
+                        });
                     }
                 }
             },
