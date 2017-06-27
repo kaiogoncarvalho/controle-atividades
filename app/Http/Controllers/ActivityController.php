@@ -151,7 +151,7 @@ class ActivityController extends Controller
         if ( $this->verifyActivity(Activity::findOrFail($id)) ) {
             return redirect()
                 ->route('home')
-                ->with('alert', ['type' => 'success', 'message' => trans('activity.not_editable')]);
+                ->with('alert', ['type' => 'danger', 'message' => trans('activity.not_editable')]);
         }
         $this->save($request->all(), $id);
 
@@ -166,6 +166,6 @@ class ActivityController extends Controller
         Activity::destroy($id);
         return redirect()
             ->route('home')
-            ->with('alert', ['type' => 'danger', 'message' => trans('activity.delete_success')]);
+            ->with('alert', ['type' => 'success', 'message' => trans('activity.delete_success')]);
     }
 }
